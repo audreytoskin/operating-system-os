@@ -14,7 +14,30 @@ cp -avf "/ctx/system_files"/. /
 
 # Alternative packaging systems...
 dnf5 install -y nix snapd
+
+# Annoying workarounds to get Snap to work under SELinux...
 ln -sf "var/lib/snapd/snap" /snap
+semanage fcontext --add --type snappy_var_lib_t /snap
+restorecon -v /snap
+for type in snappy_cli_t snappy_confine_t snappy_mount_t snappy_t snappy_unconfined_snap_t
+do
+    semanage permissive --add "$type"
+done
+systemctl enable --now snapd.socket snapd.service
+systemctl restart snapd.socket snapd.service
+snap wait system seed.loaded
+snap install hello
+for snap_bin in snap snapd snap-confine snap-update-ns
+do
+    ausearch --raw --comm "$snap_bin" | audit2allow -M my-"$snap_bin" 2> /dev/null
+    if test -f ./my-"$snap_bin".pp
+    then
+        semodule --install my-"$snap_bin".pp
+    fi
+done
+restorecon -v /snap
+find /var/ -type d -name snapd -execdir restorecon -Rv '{}' +
+find /var/ -type d -name snap -execdir restorecon -Rv '{}' +
 
 # Quality of life stuff...
 dnf5 install -y gnome-shell-extension-gpaste gpaste hunspell-devel hunspell-eo hunspell-es tilix trash-cli wine wineglass winetricks
