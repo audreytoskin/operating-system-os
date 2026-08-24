@@ -24,7 +24,6 @@ do
     semanage permissive --add "$type"
 done
 systemctl enable snapd.socket snapd.service
-snap wait system seed.loaded
 snap install hello
 for snap_bin in snap snapd snap-confine snap-update-ns
 do
