@@ -24,18 +24,6 @@ do
     semanage permissive --add "$type"
 done
 systemctl enable snapd.socket snapd.service
-snap install hello
-for snap_bin in snap snapd snap-confine snap-update-ns
-do
-    ausearch --raw --comm "$snap_bin" | audit2allow -M my-"$snap_bin" 2> /dev/null
-    if test -f ./my-"$snap_bin".pp
-    then
-        semodule --install my-"$snap_bin".pp
-    fi
-done
-restorecon -v /snap
-find /var/ -type d -name snapd -execdir restorecon -Rv '{}' +
-find /var/ -type d -name snap -execdir restorecon -Rv '{}' +
 
 # Quality of life stuff...
 dnf5 install -y gnome-shell-extension-gpaste gpaste hunspell-devel hunspell-eo hunspell-es tilix trash-cli wine wineglass winetricks
