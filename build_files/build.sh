@@ -23,8 +23,7 @@ for type in snappy_cli_t snappy_confine_t snappy_mount_t snappy_t snappy_unconfi
 do
     semanage permissive --add "$type"
 done
-systemctl enable --now snapd.socket snapd.service
-systemctl restart snapd.socket snapd.service
+systemctl enable snapd.socket snapd.service
 snap wait system seed.loaded
 snap install hello
 for snap_bin in snap snapd snap-confine snap-update-ns
