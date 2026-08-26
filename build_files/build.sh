@@ -5,6 +5,9 @@ set -ouex pipefail
 # Copy the contents of system_files/ of the git repo to /
 cp -avf "/ctx/system_files"/. /
 
+# Remove default Bluefin packages I don't actually want/need...
+dnf5 remove -y code malcontent-control
+
 ### Install packages
 
 # Packages can be installed from any enabled yum repo on the image.
