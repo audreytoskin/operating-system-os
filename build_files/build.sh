@@ -19,16 +19,6 @@ dnf5 remove -y code malcontent-control
 dnf5 install -y nix snapd
 
 # Annoying workarounds to get Snap to work under SELinux...
-if test -L /home
-then
-    mv /home /home.symlink
-    mkdir /home
-fi
-if ! grep -E '^ */var/home +/home +none +bind' /etc/fstab
-then
-    mount -o bind /var/home /home
-    echo '/var/home    /home    none    bind,defaults,nofail' >> /etc/fstab
-fi
 ln -sf "var/lib/snapd/snap" /snap
 semanage fcontext --add --type snappy_var_lib_t /snap
 restorecon -v /snap
