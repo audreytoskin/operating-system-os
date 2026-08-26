@@ -32,7 +32,7 @@ systemctl enable snapd.socket snapd.service
 dnf5 install -y gnome-shell-extension-gpaste gpaste hunspell-devel hunspell-eo hunspell-es tilix trash-cli wine wineglass winetricks
 
 # Development/shell/system tools...
-dnf5 install -y emacs fossil libgccjit libgccjit-devel libtool libvterm libvterm-tools mercurial mosh nodejs rpmconf rpmdeplint rpmlint rubygems setroubleshoot sshuttle tortoisehg
+dnf5 install -y emacs fossil libgccjit libgccjit-devel mercurial mosh nodejs rpmconf rpmdeplint rpmlint rubygems setroubleshoot sshuttle tortoisehg
 
 # Creative tools...
 dnf5 install -y amsynth darktable drumkv1 gimp inkscape krita lv2-amsynth-plugin padthv1 samplv1 scribus synthv1 vst-amsynth-plugin
