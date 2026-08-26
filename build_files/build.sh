@@ -29,7 +29,7 @@ done
 systemctl enable snapd.socket snapd.service
 
 # Quality of life stuff...
-dnf5 install -y gnome-shell-extension-gpaste gpaste hunspell-devel hunspell-eo hunspell-es tilix trash-cli wine wineglass winetricks
+dnf5 install -y gnome-software gnome-shell-extension-gpaste gpaste hunspell-devel hunspell-eo hunspell-es tilix trash-cli wine wineglass winetricks
 
 # Development/shell/system tools...
 dnf5 install -y emacs fossil libgccjit libgccjit-devel mercurial mosh nodejs rpmconf rpmdeplint rpmlint rubygems setroubleshoot sshuttle tortoisehg
