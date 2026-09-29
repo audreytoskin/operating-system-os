@@ -50,3 +50,8 @@ dnf5 install -y amsynth darktable drumkv1 gimp inkscape krita lv2-amsynth-plugin
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
+
+
+
+# Finish by rechunking the OSTree image.
+just ostree-rechunk $target_image $tag
