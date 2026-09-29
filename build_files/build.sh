@@ -61,8 +61,8 @@ do
     dnf5 install -y --allowerasing kernel-"$kernel_version" kernel-core-"$kernel_version" kernel-devel-"$kernel_version" kernel-modules-"$kernel_version"
 done
 dnf5 install -y dkms
-mkdir -p /usr/local/src
-cd /usr/local/src
+mkdir -p /var/usrlocal/src
+cd /var/usrlocal/src
 git clone https://github.com/Andycodeman/samsung-galaxy-book-linux-fixes.git
 cd ./samsung-galaxy-book-linux-fixes/speaker-fix
 ./install.sh --force
