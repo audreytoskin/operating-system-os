@@ -55,7 +55,7 @@ systemctl enable podman.socket
 
 # Fix driver for built-in speakers for Galaxy Book4 Pro 360.
 # https://github.com/Andycodeman/samsung-galaxy-book-linux-fixes
-pwd
+dnf5 install -y dkms kernel-devel-matched
 git clone https://github.com/Andycodeman/samsung-galaxy-book-linux-fixes.git
 cd ./samsung-galaxy-book-linux-fixes/speaker-fix
 ./install.sh --force
