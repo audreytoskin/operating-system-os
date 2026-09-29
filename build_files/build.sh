@@ -53,5 +53,3 @@ systemctl enable podman.socket
 
 
 
-# Finish by rechunking the OSTree image.
-just ostree-rechunk $target_image $tag
