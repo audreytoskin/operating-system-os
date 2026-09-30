@@ -69,15 +69,20 @@ mkdir -p /usr/src
 cd /usr/src/
 git clone https://github.com/Andycodeman/samsung-galaxy-book-linux-fixes.git
 cd ./samsung-galaxy-book-linux-fixes/speaker-fix
+# NOTE: When building in the cloud, `uname -r` may not match the version of the kernel getting installed.
+kernel_version=$( rpm --query kernel --qf '%{version}-%{release}.%{arch}' )
+sed -E 's|\$( *uname -r *)|'"$kernel_version"'|g' --in-place ./install.sh
 # NOTE: Neither /usr/local nor /var/usrlocal is mounted during setup in this chroot environment.
 sed -E 's|/usr/local|/usr|g' --in-place ./install.sh
 ./install.sh --force
 
 cd ../mic-fix/
+sed -E 's|\$( *uname -r *)|'"$kernel_version"'|g' --in-place ./install.sh
 sed -E 's|/usr/local|/usr|g' --in-place ./install.sh
 ./install.sh --force
 
 cd ../webcam-fix-libcamera/
+sed -E 's|\$( *uname -r *)|'"$kernel_version"'|g' --in-place ./install.sh
 sed -E 's|/usr/local|/usr|g' --in-place ./install.sh
 ./install.sh --skip-module-check --no-restart
 
