@@ -50,23 +50,28 @@ dnf5 install -y --allowerasing dkms kernel-devel kernel-headers kernel-tools ker
 mkdir -p /usr/src
 cd /usr/src/
 git clone https://github.com/Andycodeman/samsung-galaxy-book-linux-fixes.git
-cd ./samsung-galaxy-book-linux-fixes/speaker-fix
+cd ./samsung-galaxy-book-linux-fixes/
+
 # NOTE: When building in the cloud, `uname -r` may not match the version of the kernel getting installed.
 kernel_version=$( rpm --query kernel --qf '%{version}-%{release}.%{arch}' )
-sed -E 's|\$( *uname -r *)|'"$kernel_version"'|g' --in-place ./install.sh
+sed -E 's|\$( *uname -r *)|'"$kernel_version"'|g' --in-place **/install.sh
 # NOTE: Neither /usr/local nor /var/usrlocal is mounted during setup in this chroot environment.
-sed -E 's|/usr/local|/usr|g' --in-place ./install.sh
-./install.sh --force
+sed -E 's|/usr/local|/usr|g' --in-place **/install.sh
+# NOTE: systemd actions other than enabling/disabling units also not available in chroot.
+sed -E 's/^ *systemctl daemon-reload/# &/g' --in-place **/install.sh
+sed -E 's/^ *systemctl (stop|(re)?start)/# &/g' --in-place **/install.sh
+sed -E 's/(^ *systemctl [[:alnum:].,_-]+) --now/\1/g' --in-place **/install.sh
+
+cd ./speaker-fix/
+bash -xe ./install.sh --force
 
 cd ../mic-fix/
-sed -E 's|\$( *uname -r *)|'"$kernel_version"'|g' --in-place ./install.sh
-sed -E 's|/usr/local|/usr|g' --in-place ./install.sh
-./install.sh --force
+bash -xe ./install.sh --force
 
 cd ../webcam-fix-libcamera/
-sed -E 's|\$( *uname -r *)|'"$kernel_version"'|g' --in-place ./install.sh
-sed -E 's|/usr/local|/usr|g' --in-place ./install.sh
-./install.sh --skip-module-check --no-restart
+# # TODO: webcam fix wants to run as regular user with sudo, *not* as root...
+# bash -xe ./install.sh --skip-module-check --no-restart
 
+# # Clean up Galaxy Book driver scripts?
 # cd /usr/src/
 # rm -rf ./samsung-galaxy-book-linux-fixes/
