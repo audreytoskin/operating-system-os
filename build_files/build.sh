@@ -73,7 +73,7 @@ cd ./samsung-galaxy-book-linux-fixes/speaker-fix
 sed -E 's|/usr/local|/usr|g' --in-place ./install.sh
 ./install.sh --force
 
-cd ../mix-fix/
+cd ../mic-fix/
 sed -E 's|/usr/local|/usr|g' --in-place ./install.sh
 ./install.sh --force
 
