@@ -55,7 +55,7 @@ cd ./samsung-galaxy-book-linux-fixes/
 # NOTE: When building in the cloud, `uname -r` may not match the version of the kernel getting installed.
 kernel_version=$( rpm --query kernel --qf '%{version}-%{release}.%{arch}' )
 sed -E 's|\$( *uname -r *)|'"$kernel_version"'|g' --in-place **/install.sh
-sed -E 's|dkms (add|build|install)|& --kernelsourcedir /usr/lib/modules/'"$kernel_version"'/source |g' --in-place **/install.sh
+sed -E 's,dkms (add|build|install),& --kernelsourcedir /usr/lib/modules/'"$kernel_version"'/source,g' --in-place **/install.sh
 # NOTE: Neither /usr/local nor /var/usrlocal is mounted during setup in this chroot environment.
 sed -E 's|/usr/local|/usr|g' --in-place **/install.sh
 # NOTE: systemd actions other than enabling/disabling units also not available in chroot.
