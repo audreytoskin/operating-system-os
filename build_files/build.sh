@@ -1,4 +1,13 @@
-#!/bin/bash
+#!/bin/bash -xe
+
+# Debug, tests, and queries early in the chroot...
+whoami
+pwd
+uname -a
+rpm --query --all kernel
+ls -aFhl /
+find /ctx/ /etc/ /sysroot/ /usr/ /var/ -type d -name local -o -type d -name usrlocal
+# exit 255
 
 set -ouex pipefail
 
