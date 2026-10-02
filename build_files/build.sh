@@ -37,6 +37,7 @@ sed -E 's/(^ *systemctl [[:alnum:].,_-]+) --now/\1/g' --in-place **/install.sh
 
 cd ./speaker-fix/
 bash -xe ./install.sh --force
+sed -E 's|/usr/local|/usr|g' --in-place /etc/systemd/system/max98390-hda*.service /usr/sbin/max98390-hda*.sh
 
 cd ../mic-fix/
 bash -xe ./install.sh --force
