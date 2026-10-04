@@ -26,18 +26,21 @@ cd ./samsung-galaxy-book-linux-fixes/
 
 # NOTE: When building in the cloud, `uname -r` may not match the version of the kernel getting installed.
 kernel_version_arch=$( rpm --query kernel --qf '%{version}-%{release}.%{arch}' )
-sed -E 's|\$\( *uname -r *\)|'"$kernel_version_arch"'|g' --in-place **/install.sh
-sed -E 's,dkms (build|install|match|remove|status|unbuild|uninstall) [[:alnum:]/\${}()"._-]+,& -k '"$kernel_version_arch/$( arch )"',g' --in-place **/install.sh
+galaxy_book_repo_files=$( find . -type f -a -not -ipath '*/.git*' -a -not -iname '*.md' )
+sed -E 's|\$\( *uname -r *\)|'"$kernel_version_arch"'|g' --in-place **/*.sh
+sed -E 's,dkms (build|install|match|remove|status|unbuild|uninstall) [[:alnum:]/\${}()"._-]+,& -k '"$kernel_version_arch/$( arch )"',g' --in-place **/*.sh
 # NOTE: Neither /usr/local nor /var/usrlocal is mounted during setup in this chroot environment.
-sed -E 's|/usr/local|/usr|g' --in-place **/install.sh
+for file in $galaxy_book_repo_files
+do
+    sed -E 's|/usr/local|/usr|g' --in-place "$file"
+done
 # NOTE: systemd actions other than enabling/disabling units also not available in chroot.
-sed -E 's/^ *systemctl daemon-reload/# &/g' --in-place **/install.sh
-sed -E 's/^ *systemctl (stop|(re)?start)/# &/g' --in-place **/install.sh
-sed -E 's/(^ *systemctl [[:alnum:].,_-]+) --now/\1/g' --in-place **/install.sh
+sed -E 's/^ *systemctl daemon-reload/# &/g' --in-place **/*.sh
+sed -E 's/^ *systemctl (stop|(re)?start)/# &/g' --in-place **/*.sh
+sed -E 's/(^ *systemctl [[:alnum:].,_-]+) --now/\1/g' --in-place **/*.sh
 
 cd ./speaker-fix/
 bash -xe ./install.sh --force
-sed -E 's|/usr/local|/usr|g' --in-place /etc/systemd/system/max98390-hda*.service /usr/sbin/max98390-hda*.sh
 
 cd ../mic-fix/
 bash -xe ./install.sh --force
