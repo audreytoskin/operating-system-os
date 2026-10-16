@@ -16,6 +16,14 @@ cp -avf "/ctx/system_files"/. /
 
 
 
+# Set up package repositories!
+# ...Universal Blue has done most of it already.
+dnf5 copr enable terrycloth/diesel || true
+dnf5 config-manager setopt fastestmirror=1
+dnf5 makecache -y
+
+
+
 # Fix driver for built-in speakers for Galaxy Book4 Pro 360.
 # https://github.com/Andycodeman/samsung-galaxy-book-linux-fixes
 dnf5 install -y --allowerasing dkms kernel-devel kernel-headers kernel-tools kernel-modules kernel-modules-extra
